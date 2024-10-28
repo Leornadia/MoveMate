@@ -1,0 +1,20 @@
+{
+  "name": "movemate",
+  "version": "1.0.0",
+  "description": "MoveMate 🏋️‍♂️ MoveMate is a comprehensive fitness-tracking web application designed to help users log exercises, set fitness goals, track their progress, and stay motivated with streaks, challenges, and daily quotes. With MoveMate, users can also keep a fitness journal to document their journey and insights.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.3"
+  }
+}
