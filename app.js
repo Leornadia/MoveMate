@@ -21,6 +21,14 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   }
 });
 
+// Test the database connection
+sequelize.authenticate()
+  .then(() => console.log('Connected to PostgreSQL'))
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+    process.exit(1);  // Exit the process if unable to connect
+  });
+
 // Import models
 const User = require('./models/User')(sequelize);
 const Exercise = require('./models/Exercise')(sequelize);
@@ -40,14 +48,6 @@ Journal.belongsTo(User);
 
 Challenge.belongsToMany(User, { through: 'UserChallenges' });
 User.belongsToMany(Challenge, { through: 'UserChallenges' });
-
-// Test the database connection
-sequelize.authenticate()
-  .then(() => console.log('Connected to PostgreSQL'))
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-    process.exit(1);  // Exit the process if unable to connect
-  });
 
 // Sync all models
 sequelize.sync({ alter: true })
