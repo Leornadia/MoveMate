@@ -1,9 +1,16 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
 
-const JournalSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  content: { type: String, required: true },
-  date: { type: Date, default: Date.now }
-});
+module.exports = (sequelize) => {
+  const Journal = sequelize.define('Journal', {
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    }
+  });
 
-module.exports = mongoose.model('Journal', JournalSchema);
+  return Journal;
+};

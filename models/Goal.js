@@ -1,12 +1,28 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
 
-const GoalSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  targetExercises: { type: Number, required: true },
-  targetDuration: { type: Number, required: true },
-  startDate: { type: Date, default: Date.now },
-  endDate: { type: Date, required: true },
-  completed: { type: Boolean, default: false }
-});
+module.exports = (sequelize) => {
+  const Goal = sequelize.define('Goal', {
+    targetExercises: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    targetDuration: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    startDate: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    endDate: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    completed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
+  });
 
-module.exports = mongoose.model('Goal', GoalSchema);
+  return Goal;
+};

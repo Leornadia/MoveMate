@@ -1,17 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
+
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: {
+    ssl: process.env.NODE_ENV === 'production' ? {
       require: true,
       rejectUnauthorized: false
-    }
+    } : false
   }
 });
-const User = require('../models/user')(sequelize);
+
+const User = require('../models/User')(sequelize);
 
 // GET all users
 router.get('/', async (req, res) => {

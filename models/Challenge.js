@@ -1,13 +1,32 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
 
-const ChallengeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
-  goalType: { type: String, required: true },
-  targetValue: { type: Number, required: true },
-  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
-});
+module.exports = (sequelize) => {
+  const Challenge = sequelize.define('Challenge', {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    startDate: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    endDate: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    goalType: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    targetValue: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
+  });
 
-module.exports = mongoose.model('Challenge', ChallengeSchema);
+  return Challenge;
+};

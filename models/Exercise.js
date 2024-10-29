@@ -1,12 +1,26 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
 
-const ExerciseSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  type: { type: String, required: true },
-  duration: { type: Number, required: true },
-  date: { type: Date, default: Date.now },
-  calories: { type: Number },
-  notes: { type: String }
-});
+module.exports = (sequelize) => {
+  const Exercise = sequelize.define('Exercise', {
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    duration: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    },
+    calories: {
+      type: DataTypes.INTEGER
+    },
+    notes: {
+      type: DataTypes.TEXT
+    }
+  });
 
-module.exports = mongoose.model('Exercise', ExerciseSchema);
+  return Exercise;
+};
