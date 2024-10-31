@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Dashboard from './components/Dashboard';
@@ -12,12 +12,12 @@ function App() {
     <Router>
       <div className="App">
         <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/exercises" component={Exercises} />
-          <Route path="/goals" component={Goals} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/goals" element={<Goals />} />
+        </Routes>
       </div>
     </Router>
   );

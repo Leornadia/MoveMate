@@ -1,39 +1,46 @@
-const express = require('express');
-const router = express.Router();
-const { Sequelize } = require('sequelize');
+const { DataTypes } = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  protocol: 'postgres',
-  dialectOptions: {
-    ssl: process.env.NODE_ENV === 'production' ? {
-      require: true,
-      rejectUnauthorized: false
-    } : false
-  }
-});
+module.exports = (sequelize) => {
+  const User = sequelize.define('User', {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
+  }, {
+    tableName: process.env.USER_TABLE_NAME || 'users',
+    schema: process.env.DB_SCHEMA,
+    charset: process.env.DB_CHARSET || 'utf8',
+    collate: process.env.DB_COLLATE || 'utf8_general_ci',
+    timestamps: true,
+    underscored: true,
+    paranoid: true
+  });
 
-const User = require('../models/User')(sequelize);
+  // Add any hooks if needed
+  User.beforeCreate(async (user) => {
+    // Example: You could add password hashing here
+    // user.password = await bcrypt.hash(user.password, 10);
+  });
 
-// GET all users
-router.get('/', async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+  // Add any class methods if needed
+  User.associate = (models) => {
+    // Define associations here
+    // Example: User.hasMany(models.Post);
+  };
 
-// POST new user
-router.post('/', async (req, res) => {
-  try {
-    const newUser = await User.create(req.body);
-    res.status(201).json(newUser);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-module.exports = router;
+  return User;
+};

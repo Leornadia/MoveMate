@@ -1,31 +1,32 @@
 {
-  "name": "movemate",
+  "name": "movemate-backend",
   "version": "1.0.0",
-  "description": "MoveMate 🏋️‍♂️ MoveMate is a comprehensive fitness-tracking web application designed to help users log exercises, set fitness goals, track their progress, and stay motivated with streaks, challenges, and daily quotes. With MoveMate, users can also keep a fitness journal to document their journey and insights.",
-  "main": "index.js",
+  "description": "MoveMate is a comprehensive fitness-tracking web application designed to help users log exercises, set fitness goals, track their progress, and stay motivated with streaks, challenges, and daily quotes.",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "fitness",
+    "tracking",
+    "exercises",
+    "goals"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@radix-ui/react-icons": "^1.3.0",
-    "@tanstack/react-query": "^5.59.16",
-    "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.7.3",
     "mysql2": "^3.11.3",
-    "pg": "^8.13.1",
-    "pg-hstore": "^2.3.4",
-    "react-router-dom": "^6.27.0",
     "sequelize": "^6.37.5",
-    "sqlite3": "^5.1.7",
     "uuid": "^11.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
