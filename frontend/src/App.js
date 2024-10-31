@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import Exercises from './components/Exercises';
 import Goals from './components/Goals';
+import './App.css';
 
 function App() {
   return (
