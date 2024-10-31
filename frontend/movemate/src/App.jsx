@@ -1,11 +1,11 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import Dashboard from './components/Dashboard';
-import Exercises from './components/Exercises';
-import Goals from './components/Goals';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Navbar from './components/Navbar'
+import Home from './components/Home'
+import Dashboard from './components/Dashboard'
+import Exercises from './components/Exercises'
+import Goals from './components/Goals'
+import './App.css'
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         </Routes>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
