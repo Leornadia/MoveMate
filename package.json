@@ -1,32 +1,22 @@
 {
   "name": "movemate-backend",
   "version": "1.0.0",
-  "description": "MoveMate is a comprehensive fitness-tracking web application designed to help users log exercises, set fitness goals, track their progress, and stay motivated with streaks, challenges, and daily quotes.",
-  "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "setup-db": "node scripts/setup-db.js"
   },
-  "keywords": [
-    "fitness",
-    "tracking",
-    "exercises",
-    "goals"
-  ],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.11.3",
-    "sequelize": "^6.37.5",
-    "uuid": "^11.0.1"
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mysql2": "^3.2.0",
+    "sequelize": "^6.37.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^2.0.22"
   }
 }

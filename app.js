@@ -1,55 +1,63 @@
-const express = require('express');
-const cors = require('cors');
-const mysql = require('mysql2');
-require('dotenv').config();
+// app.js
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { testConnection } from './config/database.js';
+import sequelize from './config/database.js';
+import User from './models/User.js';  // Import the User model
+import authRoutes from './routes/auth.js';
+import { authenticateToken } from './middleware/auth.js';
 
+dotenv.config();
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Create MySQL connection
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'movemate_db'
-});
-
-// Connect to MySQL
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
+// Test database connection and sync models
+(async () => {
+  try {
+    await testConnection();
+    // Sync all models with the database
+    await sequelize.sync({ alter: true }); // Using alter:true instead of force:true to preserve data
+    console.log('Database synchronized successfully');
+  } catch (error) {
+    console.error('Error synchronizing database:', error);
   }
-  console.log('Connected to MySQL database');
-});
+})();
+
+// CORS configuration
+app.use(cors({
+  origin: process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5173'
+    : process.env.FRONTEND_URL,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/users', require('./routes/users'));
-app.use('/api/exercises', require('./routes/exercises'));
-app.use('/api/goals', require('./routes/goals'));
-app.use('/api/streaks', require('./routes/streaks'));
-app.use('/api/challenges', require('./routes/challenges'));
-app.use('/api/journal', require('./routes/journal'));
-app.use('/api/quotes', require('./routes/quotes'));
+app.use('/api/auth', authRoutes);
 
-// Root route
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the MoveMate API' });
+// Protected routes example
+app.get('/api/protected', authenticateToken, (req, res) => {
+  res.json({ message: 'Protected route accessed successfully', user: req.user });
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).json({
+    message: process.env.NODE_ENV === 'development'
+      ? err.message
+      : 'Internal server error'
+  });
 });
 
-// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
 
-module.exports = app;
+export default app;
