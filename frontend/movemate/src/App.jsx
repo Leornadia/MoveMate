@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LandingPage from './components/LandingPage';
 import SignupPage from './components/SignupPage';
 import Dashboard from './components/Dashboard';
+import Exercises from './components/Exercises';
+import Goals from './components/Goals';
+import Journal from './components/Journal';
+import Challenges from './components/Challenges';
 
 // Simple auth check - replace with your actual auth logic
 const isAuthenticated = () => {
@@ -24,13 +28,19 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<Navigate to="exercises" replace />} />
+          <Route path="exercises" element={<Exercises />} />
+          <Route path="goals" element={<Goals />} />
+          <Route path="journal" element={<Journal />} />
+          <Route path="challenges" element={<Challenges />} />
+        </Route>
         {/* Add other routes as needed */}
       </Routes>
     </Router>

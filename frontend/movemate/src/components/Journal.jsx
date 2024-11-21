@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function Journal() {
-  const [entries, setEntries] = useState([])
-  const [newEntry, setNewEntry] = useState('')
+  const [entries, setEntries] = useState([]);
+  const [newEntry, setNewEntry] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setEntries([{ id: Date.now(), content: newEntry, date: new Date() }, ...entries])
-    setNewEntry('')
-  }
+    e.preventDefault();
+    setEntries([{ id: Date.now(), content: newEntry, date: new Date() }, ...entries]);
+    setNewEntry('');
+  };
 
   const quotes = [
     "The only bad workout is the one that didn't happen.",
@@ -19,13 +19,13 @@ function Journal() {
     "Take care of your body. It's the only place you have to live.",
     "The hardest lift of all is lifting your butt off the couch.",
     "Your health is an investment, not an expense."
-  ]
+  ];
 
-  const todaysQuote = quotes[Math.floor(Math.random() * quotes.length)]
+  const todaysQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
   return (
-    <div className="container mx-auto mt-8">
-      <h2 className="text-3xl font-bold mb-4">Fitness Journal</h2>
+    <div className="container mx-auto mt-8 p-4">
+      <h1 className="text-3xl font-bold mb-6">Fitness Journal</h1>
       
       <Card className="mb-6">
         <CardHeader>
@@ -68,7 +68,7 @@ function Journal() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
-export default Journal
+export default Journal;

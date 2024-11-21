@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Dumbbell, Target, Calendar, Book, Trophy, HelpCircle, LogOut } from 'lucide-react';
+import { Home, Dumbbell, Target, Calendar, Book, Trophy, HelpCircle, LogOut, Bell } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -90,7 +93,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div>
                 <Label htmlFor="journal-entry">Today's Entry</Label>
-                <textarea id="journal-entry" className="w-full h-32 p-2 border rounded" />
+                <Textarea id="journal-entry" className="h-32" />
               </div>
               <Button type="submit">Save Entry</Button>
             </div>
@@ -102,7 +105,7 @@ export default function Dashboard() {
     }
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-white p-6 rounded-lg w-full max-w-md">
           <h2 className="text-2xl font-bold mb-4">{title}</h2>
           {content}
@@ -119,7 +122,7 @@ export default function Dashboard() {
         <div className="flex items-center mb-8">
           <span className="text-2xl font-bold text-[#800000]">MoveMate</span>
         </div>
-        
+
         <nav className="space-y-2">
           <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/dashboard')}>
             <Home className="h-5 w-5 mr-2" />
@@ -141,7 +144,7 @@ export default function Dashboard() {
             <Trophy className="h-5 w-5 mr-2" />
             <span>Challenges</span>
           </Button>
-          
+
           <div className="pt-8">
             <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/help')}>
               <HelpCircle className="h-5 w-5 mr-2" />
@@ -157,9 +160,28 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-1 p-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">
-          Welcome to your dashboard, {userName}!
-        </h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Welcome to your dashboard, {userName}!
+          </h1>
+          <div className="flex items-center space-x-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Bell className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>New workout suggestion</DropdownMenuItem>
+                <DropdownMenuItem>Goal reached: 10k steps</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt={userName} />
+              <AvatarFallback>{userName[0]}</AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {/* Exercise Summary Card */}
