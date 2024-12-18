@@ -1,74 +1,122 @@
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Book, Calendar, Plus } from 'lucide-react';
 
-function Journal() {
-  const [entries, setEntries] = useState([]);
-  const [newEntry, setNewEntry] = useState('');
+export default function Journal() {
+  const [entries, setEntries] = useState([
+    {
+      id: 1,
+      date: '2024-01-28',
+      title: 'Great Progress Today',
+      content: 'Completed a full workout session and hit my daily step goal. Feeling energized and motivated!'
+    },
+    {
+      id: 2,
+      date: '2024-01-27',
+      title: 'Recovery Day',
+      content: 'Focused on stretching and mobility work today. Important to listen to my body and take rest when needed.'
+    },
+    {
+      id: 3,
+      date: '2024-01-26',
+      title: 'New Personal Best',
+      content: 'Hit a new PR on deadlifts today! Slowly but surely making progress towards my strength goals.'
+    }
+  ]);
 
-  const handleSubmit = (e) => {
+  const [showNewEntryForm, setShowNewEntryForm] = useState(false);
+  const [newEntry, setNewEntry] = useState({ title: '', content: '' });
+
+  const handleNewEntrySubmit = (e) => {
     e.preventDefault();
-    setEntries([{ id: Date.now(), content: newEntry, date: new Date() }, ...entries]);
-    setNewEntry('');
+    const currentDate = new Date().toISOString().split('T')[0];
+    setEntries([
+      {
+        id: entries.length + 1,
+        date: currentDate,
+        title: newEntry.title,
+        content: newEntry.content
+      },
+      ...entries
+    ]);
+    setNewEntry({ title: '', content: '' });
+    setShowNewEntryForm(false);
   };
 
-  const quotes = [
-    "The only bad workout is the one that didn't happen.",
-    "Fitness is not about being better than someone else. It's about being better than you used to be.",
-    "Take care of your body. It's the only place you have to live.",
-    "The hardest lift of all is lifting your butt off the couch.",
-    "Your health is an investment, not an expense."
-  ];
-
-  const todaysQuote = quotes[Math.floor(Math.random() * quotes.length)];
-
   return (
-    <div className="container mx-auto mt-8 p-4">
-      <h1 className="text-3xl font-bold mb-6">Fitness Journal</h1>
-      
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>Today's Inspirational Quote</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="italic text-lg">{todaysQuote}</p>
-        </CardContent>
-      </Card>
+    <div className="p-8">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Fitness Journal</h1>
+        <Button
+          className="bg-[#800000] hover:bg-[#600000] text-white px-6"
+          onClick={() => setShowNewEntryForm(true)}
+        >
+          <Plus className="mr-2 h-4 w-4" />
+          New Entry
+        </Button>
+      </div>
 
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>New Journal Entry</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Textarea
-              value={newEntry}
-              onChange={(e) => setNewEntry(e.target.value)}
-              placeholder="Write about your fitness journey today..."
-              rows={4}
-              required
-            />
-            <Button type="submit">Save Entry</Button>
-          </form>
-        </CardContent>
-      </Card>
+      {showNewEntryForm && (
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Add New Journal Entry</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleNewEntrySubmit} className="space-y-4">
+              <div>
+                <Input
+                  placeholder="Entry Title"
+                  value={newEntry.title}
+                  onChange={(e) => setNewEntry({...newEntry, title: e.target.value})}
+                  required
+                />
+              </div>
+              <div>
+                <Textarea
+                  placeholder="Write your entry here..."
+                  value={newEntry.content}
+                  onChange={(e) => setNewEntry({...newEntry, content: e.target.value})}
+                  required
+                  rows={4}
+                />
+              </div>
+              <div className="flex justify-end space-x-2">
+                <Button type="button" variant="outline" onClick={() => setShowNewEntryForm(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit" className="bg-[#800000] hover:bg-[#600000] text-white">
+                  Save Entry
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Journal Entries</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {entries.map((entry) => (
-            <div key={entry.id} className="mb-4 p-4 bg-gray-100 rounded">
-              <p className="text-sm text-gray-500 mb-2">{entry.date.toLocaleString()}</p>
-              <p>{entry.content}</p>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+      <div className="space-y-4">
+        {entries.map((entry) => (
+          <Card key={entry.id}>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Book className="h-5 w-5 text-[#800000]" />
+                  {entry.title}
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Calendar className="h-4 w-4" />
+                  {entry.date}
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">{entry.content}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }
-
-export default Journal;

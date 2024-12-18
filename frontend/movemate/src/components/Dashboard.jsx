@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home, Dumbbell, Target, Book, Trophy, HelpCircle, LogOut } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,12 @@ import { Progress } from "@/components/ui/progress";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
   return (
     <div className="min-h-screen bg-white flex">
       {/* Sidebar */}
@@ -40,11 +45,11 @@ export default function Dashboard() {
           </Button>
 
           <div className="pt-8 space-y-6">
-            <Button variant="ghost" className="w-full justify-start gap-3">
+            <Button variant="ghost" className="w-full justify-start gap-3" onClick={() => navigate('/help')}>
               <HelpCircle className="h-5 w-5" />
               Help
             </Button>
-            <Button variant="ghost" className="w-full justify-start gap-3">
+            <Button variant="ghost" className="w-full justify-start gap-3" onClick={handleLogout}>
               <LogOut className="h-5 w-5" />
               Logout
             </Button>
@@ -72,9 +77,11 @@ export default function Dashboard() {
                 <span>Weight Training</span>
                 <span className="text-gray-500">45 mins</span>
               </div>
-              <Button className="w-full bg-[#800000] hover:bg-[#600000] text-white">
-                Log New Exercise
-              </Button>
+              <div className="flex justify-center">
+                <Button className="bg-[#800000] hover:bg-[#600000] text-white px-6">
+                  Log Exercise
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
@@ -101,9 +108,11 @@ export default function Dashboard() {
                 </div>
                 <Progress value={60} className="h-2" />
               </div>
-              <Button className="w-full bg-[#800000] hover:bg-[#600000] text-white">
-                Update Goals
-              </Button>
+              <div className="flex justify-center">
+                <Button className="bg-[#800000] hover:bg-[#600000] text-white px-6">
+                  Update Goals
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
@@ -121,9 +130,11 @@ export default function Dashboard() {
                 <p className="text-sm text-gray-600">Progress: 18/30 days</p>
                 <Progress value={60} className="h-2 mt-2" />
               </div>
-              <Button className="w-full bg-[#800000] hover:bg-[#600000] text-white">
-                Join New Challenge
-              </Button>
+              <div className="flex justify-center">
+                <Button className="bg-[#800000] hover:bg-[#600000] text-white px-6">
+                  Join Challenge
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
@@ -139,9 +150,11 @@ export default function Dashboard() {
               <blockquote className="italic text-gray-600">
                 "The only bad workout is the one that didn't happen."
               </blockquote>
-              <Button className="w-full bg-[#800000] hover:bg-[#600000] text-white">
-                Write in Journal
-              </Button>
+              <div className="flex justify-center">
+                <Button className="bg-[#800000] hover:bg-[#600000] text-white px-6">
+                  Add Entry
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>

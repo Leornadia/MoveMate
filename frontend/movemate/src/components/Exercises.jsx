@@ -1,145 +1,106 @@
-import React, { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Dumbbell, ArrowLeft } from 'lucide-react';
 
-function Exercises() {
-  const [exercises, setExercises] = useState([])
-  const [newExercise, setNewExercise] = useState({ name: '', duration: '', type: '', calories: '' })
+const exerciseData = {
+  Cardio: ['Running', 'Cycling', 'Swimming', 'Jump Rope'],
+  Strength: ['Squats', 'Deadlifts', 'Bench Press', 'Pull-ups'],
+  Flexibility: ['Yoga', 'Stretching', 'Pilates', 'Foam Rolling'],
+  HIIT: ['Burpees', 'Mountain Climbers', 'High Knees', 'Jumping Jacks'],
+  Yoga: ['Sun Salutation', 'Warrior Pose', 'Downward Dog', 'Tree Pose'],
+  Sports: ['Basketball', 'Tennis', 'Soccer', 'Volleyball']
+};
 
-  const handleInputChange = (e) => {
-    setNewExercise({ ...newExercise, [e.target.name]: e.target.value })
-  }
+export default function Exercises() {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedExercise, setSelectedExercise] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setExercises([...exercises, { ...newExercise, id: Date.now() }])
-    setNewExercise({ name: '', duration: '', type: '', calories: '' })
-  }
+  const renderCategoryList = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {Object.keys(exerciseData).map((category) => (
+        <Card key={category}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Dumbbell className="h-5 w-5 text-[#800000]" />
+              {category}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600 mb-4">Browse and track your {category.toLowerCase()} exercises</p>
+            <div className="flex justify-center">
+              <Button
+                className="bg-[#800000] hover:bg-[#600000] text-white px-6"
+                onClick={() => setSelectedCategory(category)}
+              >
+                View Exercises
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
 
-  const handleDelete = (id) => {
-    setExercises(exercises.filter(exercise => exercise.id !== id))
-  }
-
-  // Mock data for the chart
-  const chartData = [
-    { name: 'Mon', calories: 300 },
-    { name: 'Tue', calories: 450 },
-    { name: 'Wed', calories: 200 },
-    { name: 'Thu', calories: 500 },
-    { name: 'Fri', calories: 350 },
-    { name: 'Sat', calories: 600 },
-    { name: 'Sun', calories: 400 },
-  ]
-
-  return (
-    <div className="container mx-auto mt-8">
-      <h2 className="text-3xl font-bold mb-4">Exercise Library</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-xl font-semibold mb-2">Cardio</h3>
-          <p>Running, cycling, swimming, and more.</p>
-        </div>
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-xl font-semibold mb-2">Strength Training</h3>
-          <p>Weight lifting and resistance training.</p>
-        </div>
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-xl font-semibold mb-2">Flexibility</h3>
-          <p>Yoga and stretching exercises.</p>
-        </div>
+  const renderExerciseList = () => (
+    <div>
+      <Button
+        variant="ghost"
+        className="mb-4"
+        onClick={() => setSelectedCategory(null)}
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back to Categories
+      </Button>
+      <h2 className="text-xl font-bold mb-4">{selectedCategory} Exercises</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {exerciseData[selectedCategory].map((exercise) => (
+          <Card key={exercise}>
+            <CardHeader>
+              <CardTitle>{exercise}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Button
+                className="w-full bg-[#800000] hover:bg-[#600000] text-white"
+                onClick={() => setSelectedExercise(exercise)}
+              >
+                View Details
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
       </div>
+    </div>
+  );
 
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Log Your Exercise</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="name">Exercise Name</Label>
-              <Input
-                id="name"
-                name="name"
-                value={newExercise.name}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="duration">Duration (minutes)</Label>
-              <Input
-                id="duration"
-                name="duration"
-                type="number"
-                value={newExercise.duration}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="type">Type of Exercise</Label>
-              <Input
-                id="type"
-                name="type"
-                value={newExercise.type}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="calories">Calories Burned</Label>
-              <Input
-                id="calories"
-                name="calories"
-                type="number"
-                value={newExercise.calories}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <Button type="submit">Log Exercise</Button>
-          </form>
-        </CardContent>
-      </Card>
-
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>Your Logged Exercises</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {exercises.map((exercise) => (
-            <div key={exercise.id} className="flex justify-between items-center mb-2 p-2 bg-gray-100 rounded">
-              <div>
-                <strong>{exercise.name}</strong> - {exercise.duration} mins, {exercise.type}, {exercise.calories} calories
-              </div>
-              <Button variant="destructive" onClick={() => handleDelete(exercise.id)}>Delete</Button>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-
+  const renderExerciseDetails = () => (
+    <div>
+      <Button
+        variant="ghost"
+        className="mb-4"
+        onClick={() => setSelectedExercise(null)}
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back to Exercises
+      </Button>
       <Card>
         <CardHeader>
-          <CardTitle>Weekly Progress</CardTitle>
+          <CardTitle>{selectedExercise}</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="calories" stroke="#8884d8" activeDot={{ r: 8 }} />
-            </LineChart>
-          </ResponsiveContainer>
+          <p>Detailed information about {selectedExercise} would go here.</p>
+          <p>This could include instructions, benefits, and recommended sets/reps.</p>
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
 
-export default Exercises
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-6">Exercise Library</h1>
+      {!selectedCategory && renderCategoryList()}
+      {selectedCategory && !selectedExercise && renderExerciseList()}
+      {selectedExercise && renderExerciseDetails()}
+    </div>
+  );
+}
