@@ -19,18 +19,18 @@ export default function Exercises() {
   const renderCategoryList = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {Object.keys(exerciseData).map((category) => (
-        <Card key={category}>
+        <Card key={category} className="bg-black border-gradient-peach-pink">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Dumbbell className="h-5 w-5 text-[#800000]" />
+            <CardTitle className="flex items-center gap-2 text-gradient-peach-pink">
+              <Dumbbell className="h-5 w-5" />
               {category}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600 mb-4">Browse and track your {category.toLowerCase()} exercises</p>
+            <p className="text-gray-300 mb-4">Browse and track your {category.toLowerCase()} exercises</p>
             <div className="flex justify-center">
               <Button
-                className="bg-[#800000] hover:bg-[#600000] text-white px-6"
+                className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
                 onClick={() => setSelectedCategory(category)}
               >
                 View Exercises
@@ -46,22 +46,22 @@ export default function Exercises() {
     <div>
       <Button
         variant="ghost"
-        className="mb-4"
+        className="mb-4 text-gray-300 hover:text-gradient-peach-pink"
         onClick={() => setSelectedCategory(null)}
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Categories
       </Button>
-      <h2 className="text-xl font-bold mb-4">{selectedCategory} Exercises</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gradient-peach-pink">{selectedCategory} Exercises</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {exerciseData[selectedCategory].map((exercise) => (
-          <Card key={exercise}>
+          <Card key={exercise} className="bg-black border-gradient-peach-pink">
             <CardHeader>
-              <CardTitle>{exercise}</CardTitle>
+              <CardTitle className="text-gradient-peach-pink">{exercise}</CardTitle>
             </CardHeader>
             <CardContent>
               <Button
-                className="w-full bg-[#800000] hover:bg-[#600000] text-white"
+                className="w-full bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
                 onClick={() => setSelectedExercise(exercise)}
               >
                 View Details
@@ -77,27 +77,27 @@ export default function Exercises() {
     <div>
       <Button
         variant="ghost"
-        className="mb-4"
+        className="mb-4 text-gray-300 hover:text-gradient-peach-pink"
         onClick={() => setSelectedExercise(null)}
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Exercises
       </Button>
-      <Card>
+      <Card className="bg-black border-gradient-peach-pink">
         <CardHeader>
-          <CardTitle>{selectedExercise}</CardTitle>
+          <CardTitle className="text-gradient-peach-pink">{selectedExercise}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Detailed information about {selectedExercise} would go here.</p>
-          <p>This could include instructions, benefits, and recommended sets/reps.</p>
+          <p className="text-gray-300">Detailed information about {selectedExercise} would go here.</p>
+          <p className="text-gray-300">This could include instructions, benefits, and recommended sets/reps.</p>
         </CardContent>
       </Card>
     </div>
   );
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Exercise Library</h1>
+    <div className="min-h-screen bg-black text-white p-8">
+      <h1 className="text-3xl font-bold mb-6 text-gradient-peach-pink">Exercise Library</h1>
       {!selectedCategory && renderCategoryList()}
       {selectedCategory && !selectedExercise && renderExerciseList()}
       {selectedExercise && renderExerciseDetails()}

@@ -1,84 +1,68 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { BarChart, Users, Calendar, Target, Dumbbell, Book, Trophy, Settings, LogOut } from 'lucide-react'
-import Exercises from './Exercises';
-// Import other components when they're ready
-// import Goals from './Goals';
-// import Journal from './Journal';
-// import Challenges from './Challenges';
+import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { Home, Dumbbell, Target, BookText, Trophy, HelpCircle, LogOut } from 'lucide-react';
 
-export default function DashboardLayout({ children }) {
-  const [activeSection, setActiveSection] = useState('dashboard');
+export default function DashboardLayout({ children, onLogout }) {
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
-    { name: 'Dashboard', icon: BarChart, key: 'dashboard' },
-    { name: 'Exercise', icon: Dumbbell, key: 'exercise' },
-    { name: 'Goal', icon: Target, key: 'goal' },
-    { name: 'Journal', icon: Book, key: 'journal' },
-    { name: 'Challenges', icon: Trophy, key: 'challenges' },
-    { name: 'Community', icon: Users, key: 'community' },
-    { name: 'Calendar', icon: Calendar, key: 'calendar' },
+    { icon: Home, label: 'Dashboard', path: '/dashboard' },
+    { icon: Dumbbell, label: 'Exercises', path: '/dashboard/exercises' },
+    { icon: Target, label: 'Goals', path: '/dashboard/goals' },
+    { icon: BookText, label: 'Journal', path: '/dashboard/journal' },
+    { icon: Trophy, label: 'Challenges', path: '/dashboard/challenges' },
+    { icon: HelpCircle, label: 'Help', path: '/dashboard/help' },
   ];
 
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'exercise':
-        return <Exercises />;
-      case 'goal':
-        // return <Goals />;
-        return <div>Goals content (to be implemented)</div>;
-      case 'journal':
-        // return <Journal />;
-        return <div>Journal content (to be implemented)</div>;
-      case 'challenges':
-        // return <Challenges />;
-        return <div>Challenges content (to be implemented)</div>;
-      case 'dashboard':
-      default:
-        return children;
-    }
+  const handleLogout = () => {
+    onLogout();
+    navigate('/login');
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-black text-white">
       {/* Sidebar */}
-      <div className="w-64 bg-white shadow-md">
-        <div className="p-4">
-          <h1 className="text-2xl font-bold text-[#F15A29]">MoveMate</h1>
+      <aside className="w-64 border-r border-pink-300/20 p-6">
+        <div className="flex items-center gap-2 mb-8">
+          <Home className="h-6 w-6 text-pink-300" />
+          <span className="text-xl font-semibold text-pink-300">MoveMate</span>
         </div>
-        <nav className="mt-4">
+        <nav className="space-y-2">
           {navItems.map((item) => (
-            <Button
-              key={item.key}
-              variant="ghost"
-              className={`w-full justify-start ${activeSection === item.key ? 'bg-gray-200' : ''}`}
-              onClick={() => setActiveSection(item.key)}
+            <Link
+              key={item.path}
+              to={item.path}
             >
-              <item.icon className="mr-2 h-4 w-4" />
-              {item.name}
-            </Button>
+              <Button
+                variant="ghost"
+                className={`w-full justify-start gap-3 ${
+                  location.pathname === item.path 
+                    ? 'text-pink-300 bg-pink-300/10' 
+                    : 'text-gray-300 hover:text-pink-300 hover:bg-pink-300/10'
+                }`}
+              >
+                <item.icon className="h-5 w-5" />
+                {item.label}
+              </Button>
+            </Link>
           ))}
-        </nav>
-        <div className="absolute bottom-4 left-4 right-4">
-          <Button variant="ghost" className="w-full justify-start">
-            <Settings className="mr-2 h-4 w-4" />
-            Settings
-          </Button>
-          <Button variant="ghost" className="w-full justify-start text-red-600">
-            <LogOut className="mr-2 h-4 w-4" />
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 text-gray-300 hover:text-pink-300 hover:bg-pink-300/10 mt-6"
+            onClick={handleLogout}
+          >
+            <LogOut className="h-5 w-5" />
             Logout
           </Button>
-        </div>
-      </div>
+        </nav>
+      </aside>
 
-      {/* Main content */}
-      <div className="flex-1 overflow-auto">
-        <div className="p-8">
-          {renderContent()}
-        </div>
-      </div>
+      {/* Main Content */}
+      <main className="flex-1 p-6 md:p-8">
+        {children}
+      </main>
     </div>
   );
 }

@@ -8,6 +8,8 @@ import Goals from './components/Goals';
 import Journal from './components/Journal';
 import Challenges from './components/Challenges';
 import Help from './components/Help';
+import GettingStarted from './components/GettingStarted';
+import FAQ from './components/FAQ';
 
 // Protected Route wrapper component
 const ProtectedRoute = ({ children }) => {
@@ -57,6 +59,16 @@ export default function App() {
         <Route path="/help" element={
           <ProtectedRoute>
             <Help />
+          </ProtectedRoute>
+        } />
+        <Route path="/help/getting-started" element={
+          <ProtectedRoute>
+            <GettingStarted />
+          </ProtectedRoute>
+        } />
+        <Route path="/help/faq" element={
+          <ProtectedRoute>
+            <FAQ />
           </ProtectedRoute>
         } />
 

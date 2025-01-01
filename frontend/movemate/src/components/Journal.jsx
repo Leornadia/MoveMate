@@ -47,11 +47,11 @@ export default function Journal() {
   };
 
   return (
-    <div className="p-8">
+    <div className="min-h-screen bg-black text-white p-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Fitness Journal</h1>
+        <h1 className="text-3xl font-bold text-gradient-peach-pink">Fitness Journal</h1>
         <Button
-          className="bg-[#800000] hover:bg-[#600000] text-white px-6"
+          className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
           onClick={() => setShowNewEntryForm(true)}
         >
           <Plus className="mr-2 h-4 w-4" />
@@ -60,9 +60,9 @@ export default function Journal() {
       </div>
 
       {showNewEntryForm && (
-        <Card className="mb-6">
+        <Card className="mb-6 bg-black border-gradient-peach-pink">
           <CardHeader>
-            <CardTitle>Add New Journal Entry</CardTitle>
+            <CardTitle className="text-gradient-peach-pink">Add New Journal Entry</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleNewEntrySubmit} className="space-y-4">
@@ -72,6 +72,7 @@ export default function Journal() {
                   value={newEntry.title}
                   onChange={(e) => setNewEntry({...newEntry, title: e.target.value})}
                   required
+                  className="bg-black/50 border-gradient-peach-pink text-white"
                 />
               </div>
               <div>
@@ -81,13 +82,14 @@ export default function Journal() {
                   onChange={(e) => setNewEntry({...newEntry, content: e.target.value})}
                   required
                   rows={4}
+                  className="bg-black/50 border-gradient-peach-pink text-white"
                 />
               </div>
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setShowNewEntryForm(false)}>
+                <Button type="button" variant="outline" onClick={() => setShowNewEntryForm(false)} className="border-gradient-peach-pink text-gray-300">
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-[#800000] hover:bg-[#600000] text-white">
+                <Button type="submit" className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow">
                   Save Entry
                 </Button>
               </div>
@@ -98,21 +100,21 @@ export default function Journal() {
 
       <div className="space-y-4">
         {entries.map((entry) => (
-          <Card key={entry.id}>
+          <Card key={entry.id} className="bg-black border-gradient-peach-pink">
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
+              <CardTitle className="flex items-center justify-between text-gradient-peach-pink">
                 <div className="flex items-center gap-2">
-                  <Book className="h-5 w-5 text-[#800000]" />
+                  <Book className="h-5 w-5" />
                   {entry.title}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
+                <div className="flex items-center gap-2 text-sm text-gray-400">
                   <Calendar className="h-4 w-4" />
                   {entry.date}
                 </div>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-600">{entry.content}</p>
+              <p className="text-gray-300">{entry.content}</p>
             </CardContent>
           </Card>
         ))}
