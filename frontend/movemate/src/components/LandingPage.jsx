@@ -51,10 +51,10 @@ export default function LandingPage() {
       {/* Main Content */}
       <div className="flex-1 relative">
         {/* Background Image */}
-        <div 
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat brightness-50" 
-          style={{ 
-            backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photorealistic_3d_image_of_an_athletic_african_american_woman_in_sporty_attire_holding_a_smartphone_displaying_the_habitflow_logo_the_woman_is_smiling_confidently_facing_the_camera_in_a_dynamic_pose_that_suggests_-EmAQH5rpfFQxYxuZCVpFy3m4c169tb.jpeg')",
+        <div
+          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat brightness-50"
+          style={{
+            backgroundImage: 'url("https://cdn.you.com/youagent-images/flux1_1-pro/358c642c-5767-4bbe-a229-e9482ada0474.png")',
           }}
         />
 
@@ -94,8 +94,8 @@ export default function LandingPage() {
                   />
                 </div>
                 {error && <p className="text-red-500 text-sm">{error}</p>}
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="w-full bg-[#F15A29] hover:bg-[#d14923] text-white"
                 >
                   Sign In

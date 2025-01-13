@@ -68,89 +68,100 @@ export default function Challenges() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gradient-peach-pink">Fitness Challenges</h1>
-        <Button
-          className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
-          onClick={() => setShowNewChallengeForm(true)}
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Create Challenge
-        </Button>
-      </div>
+    <div className="min-h-screen text-white p-8 relative">
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'url("https://cdn.you.com/youagent-images/flux1_1-pro/685fdc0f-e90b-4a4b-82f3-41fdacd1d961.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      <div className="relative z-10">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-gradient-peach-pink">Fitness Challenges</h1>
+          <Button
+            className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
+            onClick={() => setShowNewChallengeForm(true)}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Create Challenge
+          </Button>
+        </div>
 
-      {showNewChallengeForm && (
-        <Card className="mb-6 bg-black border-gradient-peach-pink">
-          <CardHeader>
-            <CardTitle className="text-gradient-peach-pink">Create New Challenge</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleCreateChallenge} className="space-y-4">
-              <div>
-                <Input
-                  placeholder="Challenge Title"
-                  value={newChallenge.title}
-                  onChange={(e) => setNewChallenge({...newChallenge, title: e.target.value})}
-                  required
-                  className="bg-black/50 border-gradient-peach-pink text-white"
-                />
-              </div>
-              <div>
-                <Input
-                  type="number"
-                  placeholder="Number of Days"
-                  value={newChallenge.days}
-                  onChange={(e) => setNewChallenge({...newChallenge, days: e.target.value})}
-                  required
-                  className="bg-black/50 border-gradient-peach-pink text-white"
-                />
-              </div>
-              <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setShowNewChallengeForm(false)} className="border-gradient-peach-pink text-gray-300">
-                  Cancel
-                </Button>
-                <Button type="submit" className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow">
-                  Create Challenge
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {challenges.map((challenge) => (
-          <Card key={challenge.id} className="bg-black border-gradient-peach-pink">
+        {showNewChallengeForm && (
+          <Card className="mb-6 bg-black border-gradient-peach-pink">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gradient-peach-pink">
-                <challenge.icon className="h-5 w-5" />
-                {challenge.title}
-              </CardTitle>
+              <CardTitle className="text-gradient-peach-pink">Create New Challenge</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between text-sm text-gray-300">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
-                  <span>{challenge.days} days</span>
+            <CardContent>
+              <form onSubmit={handleCreateChallenge} className="space-y-4">
+                <div>
+                  <Input
+                    placeholder="Challenge Title"
+                    value={newChallenge.title}
+                    onChange={(e) => setNewChallenge({...newChallenge, title: e.target.value})}
+                    required
+                    className="bg-black/50 border-gradient-peach-pink text-white"
+                  />
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  <span>{challenge.participants} participants</span>
+                <div>
+                  <Input
+                    type="number"
+                    placeholder="Number of Days"
+                    value={newChallenge.days}
+                    onChange={(e) => setNewChallenge({...newChallenge, days: e.target.value})}
+                    required
+                    className="bg-black/50 border-gradient-peach-pink text-white"
+                  />
                 </div>
-              </div>
-              <Progress value={challenge.progress} className="h-2 bg-black border border-gradient-peach-pink [&>div]:bg-gradient-peach-pink" />
-              <div className="flex justify-center">
-                <Button
-                  className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
-                  onClick={() => handleJoinChallenge(challenge.id)}
-                >
-                  Join Challenge
-                </Button>
-              </div>
+                <div className="flex justify-end space-x-2">
+                  <Button type="button" variant="outline" onClick={() => setShowNewChallengeForm(false)} className="border-gradient-peach-pink text-gray-300">
+                    Cancel
+                  </Button>
+                  <Button type="submit" className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow">
+                    Create Challenge
+                  </Button>
+                </div>
+              </form>
             </CardContent>
           </Card>
-        ))}
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {challenges.map((challenge) => (
+            <Card key={challenge.id} className="bg-black border-gradient-peach-pink">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-gradient-peach-pink">
+                  <challenge.icon className="h-5 w-5" />
+                  {challenge.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between text-sm text-gray-300">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    <span>{challenge.days} days</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4" />
+                    <span>{challenge.participants} participants</span>
+                  </div>
+                </div>
+                <Progress value={challenge.progress} className="h-2 bg-black border border-gradient-peach-pink [&>div]:bg-gradient-peach-pink" />
+                <div className="flex justify-center">
+                  <Button
+                    className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
+                    onClick={() => handleJoinChallenge(challenge.id)}
+                  >
+                    Join Challenge
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -38,82 +38,93 @@ export default function Goals() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gradient-peach-pink">Fitness Goals</h1>
-        <Button
-          className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
-          onClick={() => setShowNewGoalForm(true)}
-        >
-          Add New Goal
-        </Button>
-      </div>
+    <div className="min-h-screen text-white p-8 relative">
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'url("https://cdn.you.com/youagent-images/flux1_1-pro/5d5d6cbb-1b83-4fcc-b710-93c1eba0b45e.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      <div className="relative z-10">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-gradient-peach-pink">Fitness Goals</h1>
+          <Button
+            className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow"
+            onClick={() => setShowNewGoalForm(true)}
+          >
+            Add New Goal
+          </Button>
+        </div>
 
-      {showNewGoalForm && (
-        <Card className="mb-6 bg-black border-gradient-peach-pink">
-          <CardHeader>
-            <CardTitle className="text-gradient-peach-pink">Add New Goal</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Input
-              placeholder="Goal Title"
-              value={newGoal.title}
-              onChange={(e) => setNewGoal({ ...newGoal, title: e.target.value })}
-              className="bg-black/50 border-gradient-peach-pink text-white"
-            />
-            <Input
-              type="number"
-              placeholder="Current Value"
-              value={newGoal.current}
-              onChange={(e) => setNewGoal({ ...newGoal, current: e.target.value })}
-              className="bg-black/50 border-gradient-peach-pink text-white"
-            />
-            <Input
-              type="number"
-              placeholder="Target Value"
-              value={newGoal.target}
-              onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
-              className="bg-black/50 border-gradient-peach-pink text-white"
-            />
-            <Button className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow" onClick={handleAddGoal}>
-              Add Goal
-            </Button>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {goals.map((goal) => (
-          <Card key={goal.id} className="bg-black border-gradient-peach-pink">
+        {showNewGoalForm && (
+          <Card className="mb-6 bg-black border-gradient-peach-pink">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gradient-peach-pink">
-                <Target className="h-5 w-5" />
-                {goal.title}
-              </CardTitle>
+              <CardTitle className="text-gradient-peach-pink">Add New Goal</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex justify-between text-sm text-gray-300">
-                <span>Current: {goal.current}</span>
-                <span>Target: {goal.target}</span>
-              </div>
-              <Progress value={goal.progress} className="h-2 bg-black border border-gradient-peach-pink [&>div]:bg-gradient-peach-pink" />
-              <div className="flex justify-center space-x-2">
-                <Button
-                  className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow px-4"
-                  onClick={() => handleUpdateGoal(goal.id, -1)}
-                >
-                  -
-                </Button>
-                <Button
-                  className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow px-4"
-                  onClick={() => handleUpdateGoal(goal.id, 1)}
-                >
-                  +
-                </Button>
-              </div>
+              <Input
+                placeholder="Goal Title"
+                value={newGoal.title}
+                onChange={(e) => setNewGoal({ ...newGoal, title: e.target.value })}
+                className="bg-black/50 border-gradient-peach-pink text-white"
+              />
+              <Input
+                type="number"
+                placeholder="Current Value"
+                value={newGoal.current}
+                onChange={(e) => setNewGoal({ ...newGoal, current: e.target.value })}
+                className="bg-black/50 border-gradient-peach-pink text-white"
+              />
+              <Input
+                type="number"
+                placeholder="Target Value"
+                value={newGoal.target}
+                onChange={(e) => setNewGoal({ ...newGoal, target: e.target.value })}
+                className="bg-black/50 border-gradient-peach-pink text-white"
+              />
+              <Button className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow" onClick={handleAddGoal}>
+                Add Goal
+              </Button>
             </CardContent>
           </Card>
-        ))}
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {goals.map((goal) => (
+            <Card key={goal.id} className="bg-black border-gradient-peach-pink">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-gradient-peach-pink">
+                  <Target className="h-5 w-5" />
+                  {goal.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between text-sm text-gray-300">
+                  <span>Current: {goal.current}</span>
+                  <span>Target: {goal.target}</span>
+                </div>
+                <Progress value={goal.progress} className="h-2 bg-black border border-gradient-peach-pink [&>div]:bg-gradient-peach-pink" />
+                <div className="flex justify-center space-x-2">
+                  <Button
+                    className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow px-4"
+                    onClick={() => handleUpdateGoal(goal.id, -1)}
+                  >
+                    -
+                  </Button>
+                  <Button
+                    className="bg-gradient-peach-pink text-white hover:bg-gradient-peach-pink-glow px-4"
+                    onClick={() => handleUpdateGoal(goal.id, 1)}
+                  >
+                    +
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

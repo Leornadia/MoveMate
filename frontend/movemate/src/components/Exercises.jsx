@@ -96,11 +96,22 @@ export default function Exercises() {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
-      <h1 className="text-3xl font-bold mb-6 text-gradient-peach-pink">Exercise Library</h1>
-      {!selectedCategory && renderCategoryList()}
-      {selectedCategory && !selectedExercise && renderExerciseList()}
-      {selectedExercise && renderExerciseDetails()}
+    <div className="min-h-screen text-white p-8 relative">
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'url("https://cdn.you.com/youagent-images/flux1_1-pro/e50844cd-609b-4d0e-9ab6-5e56b12f6b7a.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      <div className="relative z-10">
+        <h1 className="text-3xl font-bold mb-6 text-gradient-peach-pink">Exercise Library</h1>
+        {!selectedCategory && renderCategoryList()}
+        {selectedCategory && !selectedExercise && renderExerciseList()}
+        {selectedExercise && renderExerciseDetails()}
+      </div>
     </div>
   );
 }

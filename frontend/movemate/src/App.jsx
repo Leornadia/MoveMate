@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import SignupPage from './components/SignupPage';
+import DashboardLayout from './components/DashboardLayout';
 import Dashboard from './components/Dashboard';
 import Exercises from './components/Exercises';
 import Goals from './components/Goals';
@@ -31,46 +32,25 @@ export default function App() {
         <Route path="/signup" element={<SignupPage />} />
 
         {/* Protected routes */}
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/exercises" element={
-          <ProtectedRoute>
-            <Exercises />
-          </ProtectedRoute>
-        } />
-        <Route path="/goals" element={
-          <ProtectedRoute>
-            <Goals />
-          </ProtectedRoute>
-        } />
-        <Route path="/journal" element={
-          <ProtectedRoute>
-            <Journal />
-          </ProtectedRoute>
-        } />
-        <Route path="/challenges" element={
-          <ProtectedRoute>
-            <Challenges />
-          </ProtectedRoute>
-        } />
-        <Route path="/help" element={
-          <ProtectedRoute>
-            <Help />
-          </ProtectedRoute>
-        } />
-        <Route path="/help/getting-started" element={
-          <ProtectedRoute>
-            <GettingStarted />
-          </ProtectedRoute>
-        } />
-        <Route path="/help/faq" element={
-          <ProtectedRoute>
-            <FAQ />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="exercises" element={<Exercises />} />
+          <Route path="goals" element={<Goals />} />
+          <Route path="journal" element={<Journal />} />
+          <Route path="challenges" element={<Challenges />} />
+          <Route path="help" element={<Help />}>
+            <Route index element={<Navigate to="getting-started" replace />} />
+            <Route path="getting-started" element={<GettingStarted />} />
+            <Route path="faq" element={<FAQ />} />
+          </Route>
+        </Route>
 
         {/* Catch all route */}
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -78,3 +58,5 @@ export default function App() {
     </Router>
   );
 }
+
+
